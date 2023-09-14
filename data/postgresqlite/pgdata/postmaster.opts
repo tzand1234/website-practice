@@ -1,0 +1,1 @@
+/home/tom/.cache/postgresqlite/14.3/bin/postgres "-c" "dynamic_library_path=/home/tom/.cache/postgresqlite/14.3/lib" "-D" "/home/tom/lms/1.2/dynweb/website-practice/data/postgresqlite/pgdata" "-p" "35011" "--unix_socket_directories=/tmp/postgresqlite-jmSjjAtb"

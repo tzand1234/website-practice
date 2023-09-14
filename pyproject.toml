@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "website-practice"
+version = "0.1.0"
+description = ""
+authors = ["Getrekt636364 <zandbergent778@gmail.com>"]
+readme = "README.md"
+packages = [{include = "website_practice"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^2.3.2"
+postgresqlite = "^0.4.2"
+flask-mail = "^0.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

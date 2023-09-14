@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="../static/form.css" />
+{% endblock %}
+
+{% block body %}
+
+<a href="/" class="logout-button">Back to login</a>
+
+<h1 style="text-align: center;">Dashboard</h1>
+
+<div class="container">
+    <h1 class="dash_h1">Meals</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Cook Name</th>
+                <th>Meal Description</th>
+                <th>Participants</th>
+                <th>Price per Participant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meal in meals %}
+            <tr>
+                <td><a href="/form/{{ meal.id }}">{{ meal.date }}</a></td>
+                {% if meal.cook %}
+                <td>{{ meal.cook }}</td>
+                {% endif %}
+                {% if meal.meal_desc %}
+                <td>{{ meal.meal_desc }}</td>
+                <td>{{ meal.participants|length }}</td>
+                <td>{{ meal.total_expenses / meal.participants|length }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h1 class="dash_h1">Balances</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cooking</th>
+                <th>Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.cooking_balance }}</td>
+                <td>{{ user.expenses_balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% with messages = get_flashed_messages() %} {% if messages %}
+<ul class="flash">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %} {% endwith %}
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="../static/form.css" />
+{% endblock %}
+
+{% block body %}
+
+<a href="/dashboard" class="logout-button">Back to dashboard</a>
+
+<div class="container">
+    <h1>Meal {{ meal.date }}</h1>
+
+    {% if meal.meal_desc %}
+    <p>Description: {{ meal.meal_desc }}</p>
+    {% endif %}
+
+    {% if meal.cook %}
+    <p>Cook: {{ meal.cook }}</p>
+    {% else %}
+    <a class="logout-button" href="/participate/{{ meal.id }}/cook">Sign up as cook</a>
+    {% endif %}
+
+    {% if meal.total_expenses %}
+    <p>Total Expenses: €{{ meal.total_expenses }}</p>
+    {% endif %}
+
+    <h2>Participants:</h2>
+    <ul>
+        {% for participant in meal.participants %}
+        <li>{{ participant.name }}</li>
+        {% endfor %}
+
+        {% if meal.participants|length == 0 %}
+        <li>There are no participants</li>
+        {% endif %}
+    </ul>
+
+    {% if not meal.total_expenses %}
+    <a class="logout-button" href="/participate/{{ meal.id }}">Participate</a>
+    {% endif %}
+
+    <div class="form-group">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    {% if change %}
+    <h2 class="title">Declaration form</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% for field in form %}
+        <div class="form-group">
+            {{ field }}
+            {% if field.widget.input_type != 'hidden' %}
+            {{ field.label }}
+            {% endif %}
+            {% for error in field.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </form>
+    {% endif %}
+
+    {% if screenshot_url %}
+    <p>Receipt:</p>
+    <img src="{{ screenshot_url }}" alt="Screenshot" class="center" />
+    {% endif %}
+
+    {% if cook and meal.total_expenses %}
+    <a href="/form/{{ meal.id }}/True">Make changes</a>
+    {% endif %}
+
+    {% if meal_id %}
+    {% if meal_id != total_meals %}
+    <a class="logout-button" href="{{ meal_id + 1 }}">Next meal</a>
+    {% endif %}
+    {% if meal_id != 1 %}
+    <a class="logout-button" href="{{ meal_id - 1 }}">Previous meal</a>
+    {% endif %}
+    {% endif %}
+
+</div>
+
+{% endblock %}
